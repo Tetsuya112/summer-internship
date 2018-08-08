@@ -12,8 +12,15 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
        DB::table('employees')->insert([
-        ['family_name'=>'山田','given_name'=>'太郎','family_name_kana'=>'やまだ','given_name_kana'=>'たろう']
+        ['family_name'=>'月成','given_name'=>'健太','family_name_kana'=>'つきなり','given_name_kana'=>'けんた','beacon_id'=>'1']
        ]);
+
+
+
+
+       //       DB::table('beacons')->insert([
+//        ['major'=>'33',"minor"=>"4","position"=>"cafe"]
+//       ]);
 
     }
 }

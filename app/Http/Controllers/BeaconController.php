@@ -10,41 +10,30 @@ use App\Employee;
 class BeaconController extends Controller
 {
     public function reg(Request $request, $family_name, $given_name){
-
-        $request = $request->toArray();
-
-//        echo $request['major'];
-//        echo $request['minor'];
-//        echo $family_name;
-//        echo $given_name;
-//        exit;
-
-
         $requestmajor = $request->input('major');
         $requestminor = $request->input('minor');
 
         $results = Beacon::where('major', $requestmajor)
             ->where('minor', $requestminor)
-            ->get();
-
-
-
-        if ( count($results)==0){
+            ->first();
+        if ( !$results){
             return response()->json("ビーコンテーブルから情報を取得できません。",500, [], JSON_UNESCAPED_UNICODE);
         }else {
-            $position = Beacon::where('major', $requestmajor)
-                ->where('minor', $requestminor)
-                ->value('position');
-            $id = Beacon::where('major', $requestmajor)
-                ->where('minor', $requestminor)
-                ->value('id');
-            $count = Employee::where('beacon_id', $id)
-                ->get();
-            if (count($count)==0){
-                return response()->json("従業員テーブルから情報を取得できません。",500, [], JSON_UNESCAPED_UNICODE);
+
+            $pot = $results->position;
+            $id= $results->id;
+
+            $emp=Employee::where('beacon_id', $id)
+                ->where('family_name_kana', $family_name)
+                ->where('given_name_kana', $given_name)
+                ->first();
+            if (!$emp){
+                return response()->json("従業員テーブルから情報を取得できません。", 500, [], JSON_UNESCAPED_UNICODE);
             }else {
-                Employee::where('beacon_id', $id)
-                    ->update(['position' => $position]);
+                $emp->position = $pot;
+                $emp->save();
+                //$emp->update(['position' => $pot]);
+                return response()->json("success",200,[],JSON_UNESCAPED_UNICODE);
             }
         }
     }

@@ -25,6 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->date('hire_date')->nullable();
             $table->char('position',100)->nullable();
             $table->timestamp('positioned_at');
+            $table->timestamps();
         });
     }
 
