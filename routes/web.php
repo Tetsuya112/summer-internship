@@ -18,4 +18,3 @@ Route::get('/goodbye', 'HelloController@goodby');
 Route::get('/hello', 'HelloWorldController@getIndex');
 Route::get('/all', 'EmployeeController@all');
 Route::get('/employee', 'EmployeeController@res');
-Route::get('/employee/position', 'BeaconController@reg');
