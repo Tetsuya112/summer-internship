@@ -23,14 +23,14 @@ class BeaconController extends Controller
             $pot = $results->position;
             $id= $results->id;
 
-            $emp=Employee::where('beacon_id', $id)
-                ->where('family_name_kana', $family_name)
+            $emp=Employee::where('family_name_kana', $family_name)
                 ->where('given_name_kana', $given_name)
                 ->first();
             if (!$emp){
                 return response()->json("従業員テーブルから情報を取得できません。", 500, [], JSON_UNESCAPED_UNICODE);
             }else {
                 $emp->position = $pot;
+                $emp->beacon_id = $id;
                 $emp->save();
                 //$emp->update(['position' => $pot]);
                 return response()->json("success",200,[],JSON_UNESCAPED_UNICODE);
